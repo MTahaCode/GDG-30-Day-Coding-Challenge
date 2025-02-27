@@ -15,6 +15,10 @@ vector<string> split(const string &);
 
 int removeOverlapping(vector<vector<int>> intervals) {
 
+    if (intervals.size() == 0) {
+        return 0;
+    }
+
     std::sort(intervals.begin(), intervals.end(), 
         [](const vector<int>& interval1, const vector<int>& interval2) {
             if (interval1[0] == interval2[0]) {
@@ -25,18 +29,17 @@ int removeOverlapping(vector<vector<int>> intervals) {
     );
 
     int minRemovable = 0;
+    int lastEnd = intervals[0][1];
 
-    int index = 0;
-    while (index < intervals.size() - 1) {
-        vector<int>& current = intervals[index];
-        vector<int>& next = intervals[index + 1];
+    for (int i=1; i<intervals.size(); i++) {
+        vector<int>& curr_interval = intervals[i];
 
-        if (current[1] > next[0]) {
-            intervals.erase(intervals.begin() + index + 1);
+        if (curr_interval[0] < lastEnd) {
             minRemovable++;
+            lastEnd = min(lastEnd, curr_interval[1]);
         }
         else {
-            index++;
+            lastEnd = curr_interval[1];
         }
     }
     return minRemovable;
