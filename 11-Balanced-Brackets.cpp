@@ -30,7 +30,7 @@ string isBalanced(string s) {
         }
     }
     if (Stack.empty()) {
-        return "NO;"
+        return "NO";
     }
     return "YES";
 }
